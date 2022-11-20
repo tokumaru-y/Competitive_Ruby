@@ -1,22 +1,22 @@
 # https://atcoder.jp/contests/atc001/tasks/dfs_a
 $H, $W = gets.split(" ").map{ |s| s.to_i }
-$grid = Array.new($H){ gets.chomp.split("") }
+grid = Array.new($H){ gets.chomp.split("") }
 
 start_x = -1
 start_y = -1
-$seen = Array.new($H){ Array.new($W, false) }
+seen = Array.new($H){ Array.new($W, false) }
 
 for h in 0...$H do
     for w in 0...$W do
-        if $grid[h][w] == 's'
+        if grid[h][w] == 's'
             start_x = h
             start_y = w
         end
     end
 end
 
-def dfs(x, y)
-    if $grid[x][y] == 'g'
+def dfs(x, y, grid, seen)
+    if grid[x][y] == 'g'
         return true
     end
 
@@ -28,15 +28,15 @@ def dfs(x, y)
             next
         end
 
-        next if $seen[nx][ny] || $grid[nx][ny] == '#'
+        next if seen[nx][ny] || grid[nx][ny] == '#'
 
-        $seen[nx][ny] = true
-        reachable |=  dfs(nx, ny)
+        seen[nx][ny] = true
+        reachable |=  dfs(nx, ny, grid, seen)
     end
 
     reachable
 end
 
-$seen[start_x][start_y] = true
+seen[start_x][start_y] = true
 
-puts dfs(start_x, start_y) ? "Yes" : "No"
+puts dfs(start_x, start_y, grid, seen) ? "Yes" : "No"
